@@ -1,0 +1,46 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Shared Renovate preset for bronweg repositories",
+  "extends": [
+    "config:recommended",
+    ":timezone(Asia/Jerusalem)",
+    "schedule:weekends"
+  ],
+  "labels": ["dependencies"],
+  "prHourlyLimit": 0,
+  "minimumReleaseAge": "3 days",
+  "osvVulnerabilityAlerts": true,
+  "vulnerabilityAlerts": {
+    "labels": ["security"]
+  },
+  "packageRules": [
+    {
+      "description": "Digest and pin updates: grouped and automerged",
+      "matchUpdateTypes": ["pin", "digest", "pinDigest"],
+      "groupName": "non-major dependencies",
+      "groupSlug": "all-non-major",
+      "automerge": true
+    },
+    {
+      "description": "Minor/patch updates of stable (>=1.0) dependencies: grouped and automerged",
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchCurrentVersion": "!/^v?0\\./",
+      "groupName": "non-major dependencies",
+      "groupSlug": "all-non-major",
+      "automerge": true
+    },
+    {
+      "description": "Pre-1.0 dependencies can break on minor bumps: grouped separately, manual review",
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchCurrentVersion": "/^v?0\\./",
+      "groupName": "pre-1.0 dependencies",
+      "groupSlug": "pre-1-0",
+      "automerge": false
+    },
+    {
+      "description": "Major updates: one PR each, manual review",
+      "matchUpdateTypes": ["major"],
+      "automerge": false
+    }
+  ]
+}
